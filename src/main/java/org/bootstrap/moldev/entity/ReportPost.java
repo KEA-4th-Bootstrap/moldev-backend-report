@@ -8,9 +8,9 @@ import org.bootstrap.moldev.common.BaseTimeEntity;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder(access = AccessLevel.PRIVATE)
 @Getter
-@Table(name = "report")
+@Table(name = "report_post")
 @Entity
-public class Report extends BaseTimeEntity {
+public class ReportPost extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "report_id")
