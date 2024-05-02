@@ -18,7 +18,7 @@ public class ReportController {
 
     private final ReportService reportService;
 
-    @PostMapping("/report-post")
+    @PostMapping("/post")
     public ResponseEntity<SuccessResponse<?>> submitReportPost(@RequestBody SubmitReportPostRequestDto submitReportPostRequestDto) {
         SubmitReportPostResponseDto submitReportPostResponseDto = reportService.submitReportPost(submitReportPostRequestDto);
         return SuccessResponse.created(submitReportPostResponseDto);
