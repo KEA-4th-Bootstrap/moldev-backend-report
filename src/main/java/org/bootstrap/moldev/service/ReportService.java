@@ -8,8 +8,7 @@ import org.bootstrap.moldev.dto.response.SubmitReportPostResponseDto;
 import org.bootstrap.moldev.dto.response.SubmitReportReplyResponseDto;
 import org.bootstrap.moldev.entity.ReportPost;
 import org.bootstrap.moldev.entity.ReportReply;
-import org.bootstrap.moldev.repository.ReportPostRepository;
-import org.bootstrap.moldev.repository.ReportReplyRepository;
+import org.bootstrap.moldev.repository.ReportRepository;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -17,18 +16,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class ReportService {
 
-    private final ReportPostRepository reportPostRepository;
-    private final ReportReplyRepository reportReplyRepository;
+    private final ReportRepository reportRepository;
 
     public SubmitReportPostResponseDto submitReportPost(SubmitReportPostRequestDto reportPostRequestDto) {
         ReportPost reportPost = ReportPost.of(reportPostRequestDto);
-        reportPostRepository.save(reportPost);
+        reportRepository.save(reportPost);
         return SubmitReportPostResponseDto.of(reportPost.getId());
     }
 
     public SubmitReportReplyResponseDto submitReportReply(SubmitReportReplyRequestDto reportReplyRequestDto) {
         ReportReply reportReply = ReportReply.of(reportReplyRequestDto);
-        reportReplyRepository.save(reportReply);
+        reportRepository.save(reportReply);
         return SubmitReportReplyResponseDto.of(reportReply.getId());
     }
 
