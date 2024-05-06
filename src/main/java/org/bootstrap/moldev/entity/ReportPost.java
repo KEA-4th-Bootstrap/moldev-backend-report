@@ -3,32 +3,28 @@ package org.bootstrap.moldev.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
-import org.bootstrap.moldev.dto.request.SubmitReportPostRequestDto;
-import org.bootstrap.moldev.util.EnumValueUtils;
-import org.springframework.lang.NonNull;
+import lombok.*;
+import org.bootstrap.moldev.dto.request.BaseReportRequestDto;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@SuperBuilder
 @Getter
 @Table(name = "report_post")
 @Entity
 public class ReportPost extends Report {
 
-    @NonNull
-    @Column(name = "post_id")
+    @Column(name = "post_id", nullable = false)
     private Long postId;
 
-    public static ReportPost of(SubmitReportPostRequestDto fileReportRequestDto) {
+    @Builder(access = AccessLevel.PRIVATE)
+    public ReportPost(BaseReportRequestDto baseReportRequestDto) {
+        super(baseReportRequestDto.reportRequestDto());
+        this.postId = baseReportRequestDto.reportPostRequestDto().postId();
+    }
+
+    public static ReportPost of(BaseReportRequestDto baseReportRequestDto) {
         return ReportPost.builder()
-                .postId(fileReportRequestDto.postId())
-                .reporterId(fileReportRequestDto.reporterId())
-                .reason(EnumValueUtils.toEntityCode(ReasonType.class, fileReportRequestDto.reasonCode()))
+                .baseReportRequestDto(baseReportRequestDto)
                 .build();
     }
 }

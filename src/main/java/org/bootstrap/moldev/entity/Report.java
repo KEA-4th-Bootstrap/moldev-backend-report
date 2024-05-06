@@ -4,12 +4,13 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.bootstrap.moldev.common.BaseTimeEntity;
+import org.bootstrap.moldev.dto.request.ReportRequestDto;
 import org.bootstrap.moldev.entity.converter.ReasonTypeConverter;
+import org.bootstrap.moldev.util.EnumValueUtils;
 import org.springframework.lang.NonNull;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@SuperBuilder
 @Entity
 @Getter
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -21,16 +22,19 @@ public abstract class Report extends BaseTimeEntity {
     @Column(name = "report_id")
     private Long id;
 
-    @NonNull
-    @Column(name = "reporter_id")
+    @Column(name = "reporter_id", nullable = false)
     private Long reporterId;
 
-    @NonNull
     @Convert(converter = ReasonTypeConverter.class)
+    @Column(nullable = false)
     private ReasonType reason;
 
     @Column(name = "is_processed")
-    @Builder.Default
-    private boolean isProcessed = false;
+    private boolean isProcessed;
 
+    public Report(ReportRequestDto reportRequestDto) {
+        this.reporterId = reportRequestDto.reporterId();
+        this.reason = EnumValueUtils.toEntityCode(ReasonType.class, reportRequestDto.reasonCode());
+        this.isProcessed = false;
+    }
 }
