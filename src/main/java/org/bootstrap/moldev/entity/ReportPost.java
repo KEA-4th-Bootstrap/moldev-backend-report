@@ -1,46 +1,31 @@
 package org.bootstrap.moldev.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.*;
-import org.bootstrap.moldev.common.BaseTimeEntity;
-import org.bootstrap.moldev.dto.request.SubmitReportPostRequestDto;
-import org.bootstrap.moldev.entity.converter.ReasonTypeConverter;
-import org.bootstrap.moldev.util.EnumValueUtils;
-import org.springframework.lang.NonNull;
+import org.bootstrap.moldev.dto.request.BaseReportRequestDto;
+import org.bootstrap.moldev.dto.request.ReportRequestDto;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Builder(access = AccessLevel.PRIVATE)
 @Getter
 @Table(name = "report_post")
 @Entity
-public class ReportPost extends BaseTimeEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "report_id")
-    private Long id;
+public class ReportPost extends Report {
 
-    @NonNull
-    @Column(name = "post_id")
+    @Column(name = "post_id", nullable = false)
     private Long postId;
 
-    @NonNull
-    @Column(name = "reporter_id")
-    private Long reporterId;
+    @Builder(access = AccessLevel.PRIVATE)
+    public ReportPost(BaseReportRequestDto baseReportRequestDto) {
+        super(baseReportRequestDto.reportRequestDto());
+        this.postId = baseReportRequestDto.contentId();
+    }
 
-    @NonNull
-    @Convert(converter = ReasonTypeConverter.class)
-    private ReasonType reason;
-
-    @Column(name = "is_processed")
-    @Builder.Default
-    private boolean isProcessed = false;
-
-    public static ReportPost of(SubmitReportPostRequestDto fileReportRequestDto) {
+    public static ReportPost of(BaseReportRequestDto baseReportRequestDto) {
         return ReportPost.builder()
-                .postId(fileReportRequestDto.postId())
-                .reporterId(fileReportRequestDto.reporterId())
-                .reason(EnumValueUtils.toEntityCode(ReasonType.class, fileReportRequestDto.reasonCode()))
+                .baseReportRequestDto(baseReportRequestDto)
                 .build();
     }
 }

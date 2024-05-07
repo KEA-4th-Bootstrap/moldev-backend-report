@@ -1,7 +1,6 @@
 package org.bootstrap.moldev.dto.request;
 
-public record SubmitReportReplyRequestDto(
-    Long replyId,
+public record ReportRequestDto(
     Long reporterId,
     Integer reasonCode
 ) {
