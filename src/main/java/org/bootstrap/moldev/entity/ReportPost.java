@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.*;
 import org.bootstrap.moldev.dto.request.BaseReportRequestDto;
+import org.bootstrap.moldev.dto.request.ReportRequestDto;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -19,7 +20,7 @@ public class ReportPost extends Report {
     @Builder(access = AccessLevel.PRIVATE)
     public ReportPost(BaseReportRequestDto baseReportRequestDto) {
         super(baseReportRequestDto.reportRequestDto());
-        this.postId = baseReportRequestDto.reportPostRequestDto().postId();
+        this.postId = baseReportRequestDto.contentId();
     }
 
     public static ReportPost of(BaseReportRequestDto baseReportRequestDto) {

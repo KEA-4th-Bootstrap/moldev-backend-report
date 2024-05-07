@@ -19,7 +19,7 @@ public class ReportReply extends Report {
     @Builder(access = AccessLevel.PRIVATE)
     public ReportReply(BaseReportRequestDto baseReportRequestDto) {
         super(baseReportRequestDto.reportRequestDto());
-        this.replyId = baseReportRequestDto.reportReplyRequestDto().replyId();
+        this.replyId = baseReportRequestDto.contentId();
     }
 
     public static ReportReply of(BaseReportRequestDto baseReportRequestDto) {
