@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 @Service("REPLY")
 public class ReportReplyService implements ReportService {
 
-    private final ReportRepository reportRepository;
     private final ReportReplyRepository reportReplyRepository;
 
     @Override

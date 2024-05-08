@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("POST")
 public class ReportPostService implements ReportService {
 
-    private final ReportRepository reportRepository;
     private final ReportPostRepository reportPostRepository;
 
     @Override

@@ -1,8 +1,8 @@
 package org.bootstrap.moldev.service;
 
-import org.bootstrap.moldev.entity.ReportRequestType;
+import org.bootstrap.moldev.entity.ReportType;
 
 public interface ReportServiceFactory {
 
-    ReportService getReportService(ReportRequestType reportRequestType);
+    ReportService getReportService(ReportType reportType);
 }

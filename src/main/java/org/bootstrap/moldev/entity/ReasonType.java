@@ -8,12 +8,12 @@ import org.bootstrap.moldev.util.EnumField;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public enum ReasonType implements EnumField {
-    PROFANITY(1, "Profanity"),
-    HATE_SPEECH(2, "Hate Speech"),
-    SEXUAL_CONTENT(3, "Sexual Content"),
-    VIOLENCE(4, "Violence"),
-    SPAM(5, "Spam"),
-    HARMFUL_CONTENT(6, "Harmful Content");
+    PROFANITY(1, "욕설"),
+    HATE_SPEECH(2, "혐오표현"),
+    SEXUAL_CONTENT(3, "성적인 콘텐츠"),
+    VIOLENCE(4, "폭력적인 콘텐츠"),
+    SPAM(5, "스팸"),
+    HARMFUL_CONTENT(6, "유해한 콘텐츠");
 
     private final Integer code;
     private final String desc;

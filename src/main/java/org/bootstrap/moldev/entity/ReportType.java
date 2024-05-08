@@ -1,6 +1,6 @@
 package org.bootstrap.moldev.entity;
 
-public enum ReportRequestType {
+public enum ReportType {
     POST,
     REPLY
 }
