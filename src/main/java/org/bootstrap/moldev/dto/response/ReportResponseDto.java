@@ -14,8 +14,8 @@ public record ReportResponseDto(
     Long reporterId,
     Long contentId,
     String reason,
-    LocalDateTime reportTime,
-    boolean isProcessed
+    LocalDateTime reportTime
+//    boolean isProcessed
 ) {
     public static ReportResponseDto of(Report report, ReportType reportType, Long contentId) {
         return ReportResponseDto.builder()
@@ -25,7 +25,7 @@ public record ReportResponseDto(
                 .contentId(contentId)
                 .reason(report.getReason().getDesc())
                 .reportTime(report.getCreateDate())
-                .isProcessed(report.isProcessed())
+//                .isProcessed(report.isProcessed())
                 .build();
     }
 }

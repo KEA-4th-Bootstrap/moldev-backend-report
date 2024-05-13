@@ -5,7 +5,9 @@ import lombok.RequiredArgsConstructor;
 import org.bootstrap.moldev.dto.response.ReportResponseDto;
 import org.bootstrap.moldev.entity.ReportReply;
 import org.bootstrap.moldev.entity.ReportType;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,15 +20,23 @@ public class ReportReplyQueryRepositoryImpl implements ReportReplyQueryRepositor
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<ReportResponseDto> getReportReplyListForResponse(Pageable pageable) {
-        List<ReportReply> reportReplyList = jpaQueryFactory.selectFrom(reportReply)
+    public Page<ReportResponseDto> getReportReplyListForResponseByProcessed(Pageable pageable, boolean isProcessed) {
+        List<ReportReply> reportReplyList = jpaQueryFactory
+                .selectFrom(reportReply)
+                .where(reportReply.isProcessed.eq(isProcessed))
                 .orderBy(reportReply.id.desc())
                 .offset((long) pageable.getPageNumber() * pageable.getPageSize())
                 .limit(pageable.getPageSize())
                 .fetch();
 
-        return reportReplyList.stream()
+        List<ReportResponseDto> reportReplyListDto = reportReplyList.stream()
                 .map(reportReply -> ReportResponseDto.of(reportReply, ReportType.REPLY, reportReply.getReplyId()))
                 .toList();
+
+        Long reportReplyCount = jpaQueryFactory.select(reportReply.count())
+                .from(reportReply)
+                .fetchFirst();
+
+        return PageableExecutionUtils.getPage(reportReplyListDto, pageable, () -> reportReplyCount);
     }
 }

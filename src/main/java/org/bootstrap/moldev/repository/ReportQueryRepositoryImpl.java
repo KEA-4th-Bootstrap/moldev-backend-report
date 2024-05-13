@@ -24,9 +24,10 @@ public class ReportQueryRepositoryImpl implements ReportQueryRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<ReportResponseDto> getReportListForResponse(Pageable pageable) {
+    public List<ReportResponseDto> getReportListForResponseByProcessed(Pageable pageable, boolean isProcessed) {
         List<Long> reportIdList = jpaQueryFactory.select(report.id)
                 .from(report)
+                .where(report.isProcessed.eq(isProcessed))
                 .orderBy(report.id.desc())
                 .offset((long) pageable.getPageNumber() * pageable.getPageSize())
                 .limit(pageable.getPageSize())
