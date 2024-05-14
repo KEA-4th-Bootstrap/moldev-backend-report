@@ -33,23 +33,25 @@ public class ReportController {
 
     @GetMapping("/processed")
     public ResponseEntity<SuccessResponse<?>> getReportListIsProcessed(@RequestParam(name = "type", required = false) ReportType reportType,
+                                                            @RequestParam(required = false) String search,
                                                             @PageableDefault Pageable pageable) {
         if (Objects.isNull(reportType)) {
-            List<ReportNotProcessedResponseDto> reportList = reportIntegrationService.getReportListIsProcessed(pageable);
+            List<ReportNotProcessedResponseDto> reportList = reportIntegrationService.getReportListIsProcessed(search, pageable);
             return SuccessResponse.ok(reportList);
         }
-        Page<ReportNotProcessedResponseDto> reportList = reportServiceFactory.getReportService(reportType).getReportListIsProcessed(pageable);
+        Page<ReportNotProcessedResponseDto> reportList = reportServiceFactory.getReportService(reportType).getReportListIsProcessed(search, pageable);
         return SuccessResponse.ok(reportList);
     }
 
     @GetMapping("/not-processed")
     public ResponseEntity<SuccessResponse<?>> getReportListIsNotProcessed(@RequestParam(name = "type", required = false) ReportType reportType,
+                                                            @RequestParam(required = false) String search,
                                                             @PageableDefault Pageable pageable) {
         if (Objects.isNull(reportType)) {
-            List<ReportNotProcessedResponseDto> reportList = reportIntegrationService.getReportListIsNotProcessed(pageable);
+            List<ReportNotProcessedResponseDto> reportList = reportIntegrationService.getReportListIsNotProcessed(search, pageable);
             return SuccessResponse.ok(reportList);
         }
-        Page<ReportNotProcessedResponseDto> reportList = reportServiceFactory.getReportService(reportType).getReportListIsNotProcessed(pageable);
+        Page<ReportNotProcessedResponseDto> reportList = reportServiceFactory.getReportService(reportType).getReportListIsNotProcessed(search, pageable);
         return SuccessResponse.ok(reportList);
     }
 

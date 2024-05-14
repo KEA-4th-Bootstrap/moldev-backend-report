@@ -9,6 +9,6 @@ import org.springframework.stereotype.Service;
 @Service
 public interface ReportService {
     void submitReport(BaseReportRequestDto baseReportRequestDto);
-    Page<ReportNotProcessedResponseDto> getReportListIsProcessed(Pageable pageable);
-    Page<ReportNotProcessedResponseDto> getReportListIsNotProcessed(Pageable pageable);
+    Page<ReportNotProcessedResponseDto> getReportListIsProcessed(String search, Pageable pageable);
+    Page<ReportNotProcessedResponseDto> getReportListIsNotProcessed(String search, Pageable pageable);
 }

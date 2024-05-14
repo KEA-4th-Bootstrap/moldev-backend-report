@@ -16,11 +16,11 @@ public class ReportIntegrationService {
 
     private final ReportRepository reportRepository;
 
-    public List<ReportNotProcessedResponseDto> getReportListIsProcessed(Pageable pageable) {
-        return reportRepository.getReportListForResponseByProcessed(pageable, true);
+    public List<ReportNotProcessedResponseDto> getReportListIsProcessed(String search, Pageable pageable) {
+        return reportRepository.getReportListForResponseByProcessed(search, pageable, true);
     }
 
-    public List<ReportNotProcessedResponseDto> getReportListIsNotProcessed(Pageable pageable) {
-        return reportRepository.getReportListForResponseByProcessed(pageable, false);
+    public List<ReportNotProcessedResponseDto> getReportListIsNotProcessed(String search, Pageable pageable) {
+        return reportRepository.getReportListForResponseByProcessed(search, pageable, false);
     }
 }

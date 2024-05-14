@@ -5,5 +5,5 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface ReportPostQueryRepository {
-    Page<ReportNotProcessedResponseDto> getReportPostListForResponseByProcessed(Pageable pageable, boolean isProcessed);
+    Page<ReportNotProcessedResponseDto> getReportPostListForResponseByProcessed(String search, Pageable pageable, boolean isProcessed);
 }

@@ -20,7 +20,7 @@ public class ReportPostQueryRepositoryImpl implements ReportPostQueryRepository 
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Page<ReportNotProcessedResponseDto> getReportPostListForResponseByProcessed(Pageable pageable, boolean isProcessed) {
+    public Page<ReportNotProcessedResponseDto> getReportPostListForResponseByProcessed(String search, Pageable pageable, boolean isProcessed) {
         List<ReportPost> reportPostList = jpaQueryFactory
                 .selectFrom(reportPost)
                 .where(reportPost.isProcessed.eq(isProcessed))

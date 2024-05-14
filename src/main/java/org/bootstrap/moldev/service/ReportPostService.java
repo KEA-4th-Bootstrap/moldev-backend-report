@@ -24,12 +24,12 @@ public class ReportPostService implements ReportService {
     }
 
     @Override
-    public Page<ReportNotProcessedResponseDto> getReportListIsProcessed(Pageable pageable) {
-        return reportPostRepository.getReportPostListForResponseByProcessed(pageable, true);
+    public Page<ReportNotProcessedResponseDto> getReportListIsProcessed(String search, Pageable pageable) {
+        return reportPostRepository.getReportPostListForResponseByProcessed(search, pageable, true);
     }
 
     @Override
-    public Page<ReportNotProcessedResponseDto> getReportListIsNotProcessed(Pageable pageable) {
-        return reportPostRepository.getReportPostListForResponseByProcessed(pageable, false);
+    public Page<ReportNotProcessedResponseDto> getReportListIsNotProcessed(String search, Pageable pageable) {
+        return reportPostRepository.getReportPostListForResponseByProcessed(search, pageable, false);
     }
 }

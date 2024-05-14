@@ -24,7 +24,7 @@ public class ReportQueryRepositoryImpl implements ReportQueryRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<ReportNotProcessedResponseDto> getReportListForResponseByProcessed(Pageable pageable, boolean isProcessed) {
+    public List<ReportNotProcessedResponseDto> getReportListForResponseByProcessed(String search, Pageable pageable, boolean isProcessed) {
         List<Long> reportIdList = jpaQueryFactory.select(report.id)
                 .from(report)
                 .where(report.isProcessed.eq(isProcessed))
