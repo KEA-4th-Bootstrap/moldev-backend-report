@@ -12,7 +12,8 @@ import java.time.LocalDateTime;
 public record ReportProcessedResponseDto(
     Long reportId,
     ReportType reportType,
-    Long reporterId,
+    String reporterId,
+    String reporteeId,
     Long contentId,
     String reason,
     LocalDate reportDate,
@@ -23,6 +24,7 @@ public record ReportProcessedResponseDto(
                 .reportId(report.getId())
                 .reportType(reportType)
                 .reporterId(report.getReporterId())
+                .reporteeId(report.getReporteeId())
                 .contentId(contentId)
                 .reason(report.getReason().getDesc())
                 .reportDate(report.getCreateDate().toLocalDate())
