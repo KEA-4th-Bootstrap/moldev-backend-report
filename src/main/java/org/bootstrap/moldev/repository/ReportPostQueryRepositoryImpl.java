@@ -11,7 +11,9 @@ import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Objects;
 
+import static org.bootstrap.moldev.entity.QReport.report;
 import static org.bootstrap.moldev.entity.QReportPost.reportPost;
 
 @Repository
@@ -24,6 +26,7 @@ public class ReportPostQueryRepositoryImpl implements ReportPostQueryRepository 
         List<ReportPost> reportPostList = jpaQueryFactory
                 .selectFrom(reportPost)
                 .where(reportPost.isProcessed.eq(isProcessed))
+                .where(Objects.isNull(search) ? null : reportPost.reporteeId.contains(search))
                 .orderBy(reportPost.id.desc())
                 .offset((long) pageable.getPageNumber() * pageable.getPageSize())
                 .limit(pageable.getPageSize())

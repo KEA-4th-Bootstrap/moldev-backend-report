@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 import static org.bootstrap.moldev.entity.QReport.report;
@@ -28,6 +29,7 @@ public class ReportQueryRepositoryImpl implements ReportQueryRepository {
         List<Long> reportIdList = jpaQueryFactory.select(report.id)
                 .from(report)
                 .where(report.isProcessed.eq(isProcessed))
+                .where(Objects.isNull(search) ? null : report.reporteeId.contains(search))
                 .orderBy(report.id.desc())
                 .offset((long) pageable.getPageNumber() * pageable.getPageSize())
                 .limit(pageable.getPageSize())

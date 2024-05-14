@@ -33,7 +33,7 @@ public class ReportController {
 
     @GetMapping("/processed")
     public ResponseEntity<SuccessResponse<?>> getReportListIsProcessed(@RequestParam(name = "type", required = false) ReportType reportType,
-                                                            @RequestParam(required = false) String search,
+                                                            @RequestParam(name = "search", required = false) String search,
                                                             @PageableDefault Pageable pageable) {
         if (Objects.isNull(reportType)) {
             List<ReportNotProcessedResponseDto> reportList = reportIntegrationService.getReportListIsProcessed(search, pageable);
@@ -45,7 +45,7 @@ public class ReportController {
 
     @GetMapping("/not-processed")
     public ResponseEntity<SuccessResponse<?>> getReportListIsNotProcessed(@RequestParam(name = "type", required = false) ReportType reportType,
-                                                            @RequestParam(required = false) String search,
+                                                            @RequestParam(name = "search", required = false) String search,
                                                             @PageableDefault Pageable pageable) {
         if (Objects.isNull(reportType)) {
             List<ReportNotProcessedResponseDto> reportList = reportIntegrationService.getReportListIsNotProcessed(search, pageable);
