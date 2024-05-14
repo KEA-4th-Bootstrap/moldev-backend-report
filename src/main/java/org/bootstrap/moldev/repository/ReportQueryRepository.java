@@ -1,10 +1,10 @@
 package org.bootstrap.moldev.repository;
 
-import org.bootstrap.moldev.dto.response.ReportResponseDto;
+import org.bootstrap.moldev.dto.response.ReportNotProcessedResponseDto;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface ReportQueryRepository {
-    List<ReportResponseDto> getReportListForResponseByProcessed(Pageable pageable, boolean isProcessed);
+    List<ReportNotProcessedResponseDto> getReportListForResponseByProcessed(Pageable pageable, boolean isProcessed);
 }

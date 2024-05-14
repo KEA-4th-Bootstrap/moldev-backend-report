@@ -2,16 +2,13 @@ package org.bootstrap.moldev.service;
 
 import lombok.RequiredArgsConstructor;
 import org.bootstrap.moldev.dto.request.BaseReportRequestDto;
-import org.bootstrap.moldev.dto.response.ReportResponseDto;
+import org.bootstrap.moldev.dto.response.ReportNotProcessedResponseDto;
 import org.bootstrap.moldev.entity.ReportPost;
 import org.bootstrap.moldev.repository.ReportPostRepository;
-import org.bootstrap.moldev.repository.ReportRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @Transactional
@@ -27,12 +24,12 @@ public class ReportPostService implements ReportService {
     }
 
     @Override
-    public Page<ReportResponseDto> getReportListIsProcessed(Pageable pageable) {
+    public Page<ReportNotProcessedResponseDto> getReportListIsProcessed(Pageable pageable) {
         return reportPostRepository.getReportPostListForResponseByProcessed(pageable, true);
     }
 
     @Override
-    public Page<ReportResponseDto> getReportListIsNotProcessed(Pageable pageable) {
+    public Page<ReportNotProcessedResponseDto> getReportListIsNotProcessed(Pageable pageable) {
         return reportPostRepository.getReportPostListForResponseByProcessed(pageable, false);
     }
 }

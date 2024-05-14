@@ -3,7 +3,7 @@ package org.bootstrap.moldev.controller;
 import lombok.RequiredArgsConstructor;
 import org.bootstrap.moldev.common.SuccessResponse;
 import org.bootstrap.moldev.dto.request.BaseReportRequestDto;
-import org.bootstrap.moldev.dto.response.ReportResponseDto;
+import org.bootstrap.moldev.dto.response.ReportNotProcessedResponseDto;
 import org.bootstrap.moldev.entity.ReportType;
 import org.bootstrap.moldev.service.ReportIntegrationService;
 import org.bootstrap.moldev.service.ReportServiceFactory;
@@ -35,10 +35,10 @@ public class ReportController {
     public ResponseEntity<SuccessResponse<?>> getReportListIsProcessed(@RequestParam(name = "type", required = false) ReportType reportType,
                                                             @PageableDefault Pageable pageable) {
         if (Objects.isNull(reportType)) {
-            List<ReportResponseDto> reportList = reportIntegrationService.getReportListIsProcessed(pageable);
+            List<ReportNotProcessedResponseDto> reportList = reportIntegrationService.getReportListIsProcessed(pageable);
             return SuccessResponse.ok(reportList);
         }
-        Page<ReportResponseDto> reportList = reportServiceFactory.getReportService(reportType).getReportListIsProcessed(pageable);
+        Page<ReportNotProcessedResponseDto> reportList = reportServiceFactory.getReportService(reportType).getReportListIsProcessed(pageable);
         return SuccessResponse.ok(reportList);
     }
 
@@ -46,10 +46,10 @@ public class ReportController {
     public ResponseEntity<SuccessResponse<?>> getReportListIsNotProcessed(@RequestParam(name = "type", required = false) ReportType reportType,
                                                             @PageableDefault Pageable pageable) {
         if (Objects.isNull(reportType)) {
-            List<ReportResponseDto> reportList = reportIntegrationService.getReportListIsNotProcessed(pageable);
+            List<ReportNotProcessedResponseDto> reportList = reportIntegrationService.getReportListIsNotProcessed(pageable);
             return SuccessResponse.ok(reportList);
         }
-        Page<ReportResponseDto> reportList = reportServiceFactory.getReportService(reportType).getReportListIsNotProcessed(pageable);
+        Page<ReportNotProcessedResponseDto> reportList = reportServiceFactory.getReportService(reportType).getReportListIsNotProcessed(pageable);
         return SuccessResponse.ok(reportList);
     }
 
