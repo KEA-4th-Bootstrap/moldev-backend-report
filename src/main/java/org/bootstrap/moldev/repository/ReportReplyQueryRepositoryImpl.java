@@ -1,5 +1,6 @@
 package org.bootstrap.moldev.repository;
 
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.bootstrap.moldev.dto.response.ReportNotProcessedResponseDto;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static org.bootstrap.moldev.entity.QReport.report;
+import static org.bootstrap.moldev.entity.QReportPost.reportPost;
 import static org.bootstrap.moldev.entity.QReportReply.reportReply;
 
 @Repository
@@ -25,8 +27,10 @@ public class ReportReplyQueryRepositoryImpl implements ReportReplyQueryRepositor
     public Page<ReportNotProcessedResponseDto> getReportReplyListForResponseByProcessed(String search, Pageable pageable, boolean isProcessed) {
         List<ReportReply> reportReplyList = jpaQueryFactory
                 .selectFrom(reportReply)
-                .where(reportReply.isProcessed.eq(isProcessed))
-                .where(Objects.isNull(search) ? null : reportReply.reporteeId.contains(search))
+                .where(
+                        eqIsProcessed(isProcessed),
+                        containsReporteeId(search)
+                )
                 .orderBy(reportReply.id.desc())
                 .offset((long) pageable.getPageNumber() * pageable.getPageSize())
                 .limit(pageable.getPageSize())
@@ -41,5 +45,13 @@ public class ReportReplyQueryRepositoryImpl implements ReportReplyQueryRepositor
                 .fetchFirst();
 
         return PageableExecutionUtils.getPage(reportReplyListDto, pageable, () -> reportReplyCount);
+    }
+
+    private BooleanExpression eqIsProcessed(Boolean isProcessed) {
+        return isProcessed == null ? null : reportPost.isProcessed.eq(isProcessed);
+    }
+
+    private BooleanExpression containsReporteeId(String search) {
+        return search == null ? null : reportPost.reporteeId.contains(search);
     }
 }
