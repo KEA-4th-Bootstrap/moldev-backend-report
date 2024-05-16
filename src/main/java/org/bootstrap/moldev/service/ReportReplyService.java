@@ -3,9 +3,11 @@ package org.bootstrap.moldev.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.bootstrap.moldev.dto.request.BaseReportRequestDto;
+import org.bootstrap.moldev.dto.response.ReportNotProcessedResponseDto;
 import org.bootstrap.moldev.entity.ReportReply;
 import org.bootstrap.moldev.repository.ReportReplyRepository;
-import org.bootstrap.moldev.repository.ReportRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -19,5 +21,15 @@ public class ReportReplyService implements ReportService {
     public void submitReport(BaseReportRequestDto baseReportRequestDto) {
         ReportReply reportReply = ReportReply.of(baseReportRequestDto);
         reportReplyRepository.save(reportReply);
+    }
+
+    @Override
+    public Page<ReportNotProcessedResponseDto> getReportListIsProcessed(String search, Pageable pageable) {
+        return reportReplyRepository.getReportReplyListForResponseByProcessed(search, pageable, true);
+    }
+
+    @Override
+    public Page<ReportNotProcessedResponseDto> getReportListIsNotProcessed(String search, Pageable pageable) {
+        return reportReplyRepository.getReportReplyListForResponseByProcessed(search, pageable, false);
     }
 }

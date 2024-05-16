@@ -3,16 +3,18 @@ package org.bootstrap.moldev.controller;
 import lombok.RequiredArgsConstructor;
 import org.bootstrap.moldev.common.SuccessResponse;
 import org.bootstrap.moldev.dto.request.BaseReportRequestDto;
-import org.bootstrap.moldev.dto.response.ReportResponseDto;
+import org.bootstrap.moldev.dto.response.ReportNotProcessedResponseDto;
 import org.bootstrap.moldev.entity.ReportType;
 import org.bootstrap.moldev.service.ReportIntegrationService;
 import org.bootstrap.moldev.service.ReportServiceFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RequiredArgsConstructor
 @RestController
@@ -29,9 +31,27 @@ public class ReportController {
         return SuccessResponse.created(null);
     }
 
-    @GetMapping
-    public ResponseEntity<SuccessResponse<?>> getReportList(@PageableDefault Pageable pageable) {
-        List<ReportResponseDto> reportList = reportIntegrationService.getReportList(pageable);
+    @GetMapping("/processed")
+    public ResponseEntity<SuccessResponse<?>> getReportListIsProcessed(@RequestParam(name = "type", required = false) ReportType reportType,
+                                                            @RequestParam(name = "search", required = false) String search,
+                                                            @PageableDefault Pageable pageable) {
+        if (Objects.isNull(reportType)) {
+            List<ReportNotProcessedResponseDto> reportList = reportIntegrationService.getReportListIsProcessed(search, pageable);
+            return SuccessResponse.ok(reportList);
+        }
+        Page<ReportNotProcessedResponseDto> reportList = reportServiceFactory.getReportService(reportType).getReportListIsProcessed(search, pageable);
+        return SuccessResponse.ok(reportList);
+    }
+
+    @GetMapping("/not-processed")
+    public ResponseEntity<SuccessResponse<?>> getReportListIsNotProcessed(@RequestParam(name = "type", required = false) ReportType reportType,
+                                                            @RequestParam(name = "search", required = false) String search,
+                                                            @PageableDefault Pageable pageable) {
+        if (Objects.isNull(reportType)) {
+            List<ReportNotProcessedResponseDto> reportList = reportIntegrationService.getReportListIsNotProcessed(search, pageable);
+            return SuccessResponse.ok(reportList);
+        }
+        Page<ReportNotProcessedResponseDto> reportList = reportServiceFactory.getReportService(reportType).getReportListIsNotProcessed(search, pageable);
         return SuccessResponse.ok(reportList);
     }
 

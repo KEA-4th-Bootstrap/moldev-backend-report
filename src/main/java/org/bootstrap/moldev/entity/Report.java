@@ -23,7 +23,10 @@ public abstract class Report extends BaseTimeEntity {
     private Long id;
 
     @Column(name = "reporter_id", nullable = false)
-    private Long reporterId;
+    private String reporterId;
+
+    @Column(name = "reportee_id", nullable = false)
+    private String reporteeId;
 
     @Convert(converter = ReasonTypeConverter.class)
     @Column(nullable = false)
@@ -34,6 +37,7 @@ public abstract class Report extends BaseTimeEntity {
 
     public Report(ReportRequestDto reportRequestDto) {
         this.reporterId = reportRequestDto.reporterId();
+        this.reporteeId = reportRequestDto.reporteeId();
         this.reason = EnumValueUtils.toEntityCode(ReasonType.class, reportRequestDto.reasonCode());
         this.isProcessed = false;
     }
