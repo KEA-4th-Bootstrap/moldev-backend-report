@@ -4,6 +4,7 @@ pipeline {
     stages {
         stage('Repository') {
             steps {
+                sh "ls"
                 git branch: 'dev', url: "https://github.com/KEA-4th-Bootstrap/moldev-backend-report"
             }
         }
