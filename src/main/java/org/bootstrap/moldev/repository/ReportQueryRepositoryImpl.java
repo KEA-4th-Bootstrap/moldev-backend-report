@@ -7,7 +7,9 @@ import org.bootstrap.moldev.dto.response.ReportNotProcessedResponseDto;
 import org.bootstrap.moldev.entity.ReportPost;
 import org.bootstrap.moldev.entity.ReportReply;
 import org.bootstrap.moldev.entity.ReportType;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.Comparator;
@@ -25,7 +27,7 @@ public class ReportQueryRepositoryImpl implements ReportQueryRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<ReportNotProcessedResponseDto> getReportListForResponseByProcessed(String search, Pageable pageable, boolean isProcessed) {
+    public Page<ReportNotProcessedResponseDto> getReportListForResponseByProcessed(String search, Pageable pageable, boolean isProcessed) {
         List<Long> reportIdList = jpaQueryFactory.select(report.id)
                 .from(report)
                 .where(
@@ -45,7 +47,7 @@ public class ReportQueryRepositoryImpl implements ReportQueryRepository {
                 .where(reportReply.id.in(reportIdList))
                 .fetch();
 
-        return Stream.concat(
+        List<ReportNotProcessedResponseDto> mergeList = Stream.concat(
                 reportPostList.stream()
                         .map(reportPost -> ReportNotProcessedResponseDto.of(reportPost, ReportType.POST, reportPost.getPostId()))
                         .toList().stream(),
@@ -53,6 +55,8 @@ public class ReportQueryRepositoryImpl implements ReportQueryRepository {
                         .map(reportReply -> ReportNotProcessedResponseDto.of(reportReply, ReportType.REPLY, reportReply.getReplyId()))
                         .toList().stream()
         ).sorted(Comparator.comparing(ReportNotProcessedResponseDto::reportId).reversed()).toList();
+
+        return PageableExecutionUtils.getPage(mergeList, pageable, reportIdList::size);
     }
 
     private BooleanExpression eqIsProcessed(Boolean isProcessed) {

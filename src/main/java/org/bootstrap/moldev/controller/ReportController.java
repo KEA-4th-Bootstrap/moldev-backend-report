@@ -13,7 +13,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Objects;
 
 @RequiredArgsConstructor
@@ -36,7 +35,7 @@ public class ReportController {
                                                             @RequestParam(name = "search", required = false) String search,
                                                             @PageableDefault Pageable pageable) {
         if (Objects.isNull(reportType)) {
-            List<ReportNotProcessedResponseDto> reportList = reportIntegrationService.getReportListIsProcessed(search, pageable);
+            Page<ReportNotProcessedResponseDto> reportList = reportIntegrationService.getReportListIsProcessed(search, pageable);
             return SuccessResponse.ok(reportList);
         }
         Page<ReportNotProcessedResponseDto> reportList = reportServiceFactory.getReportService(reportType).getReportListIsProcessed(search, pageable);
@@ -48,7 +47,7 @@ public class ReportController {
                                                             @RequestParam(name = "search", required = false) String search,
                                                             @PageableDefault Pageable pageable) {
         if (Objects.isNull(reportType)) {
-            List<ReportNotProcessedResponseDto> reportList = reportIntegrationService.getReportListIsNotProcessed(search, pageable);
+            Page<ReportNotProcessedResponseDto> reportList = reportIntegrationService.getReportListIsNotProcessed(search, pageable);
             return SuccessResponse.ok(reportList);
         }
         Page<ReportNotProcessedResponseDto> reportList = reportServiceFactory.getReportService(reportType).getReportListIsNotProcessed(search, pageable);
