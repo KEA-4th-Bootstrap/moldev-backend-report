@@ -5,13 +5,15 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.*;
 import org.bootstrap.moldev.dto.request.BaseReportRequestDto;
-import org.bootstrap.moldev.dto.request.ReportRequestDto;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @Table(name = "report_post")
 @Entity
+@OnDelete(action = OnDeleteAction.CASCADE)
 public class ReportPost extends Report {
 
     @Column(name = "post_id", nullable = false)
