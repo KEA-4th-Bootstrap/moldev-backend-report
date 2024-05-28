@@ -40,4 +40,8 @@ public abstract class Report extends BaseTimeEntity {
         this.reason = reportRequestDto.reason();
         this.isProcessed = false;
     }
+
+    public void updateProcess(boolean isProcessed) {
+        this.isProcessed = isProcessed;
+    }
 }

@@ -54,4 +54,10 @@ public class ReportController {
         return SuccessResponse.ok(reportList);
     }
 
+    @PatchMapping("/{reportId}/processed")
+    public ResponseEntity<SuccessResponse<?>> patchReportProcessed(@PathVariable Long reportId) {
+        reportIntegrationService.updateReportProcessed(reportId);
+        return SuccessResponse.ok(null);
+    }
+
 }
