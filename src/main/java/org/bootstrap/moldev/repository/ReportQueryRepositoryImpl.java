@@ -56,10 +56,10 @@ public class ReportQueryRepositoryImpl implements ReportQueryRepository {
     }
 
     private BooleanExpression eqIsProcessed(Boolean isProcessed) {
-        return isProcessed == null ? null : reportPost.isProcessed.eq(isProcessed);
+        return isProcessed == null ? null : report.isProcessed.eq(isProcessed);
     }
 
     private BooleanExpression containsReporteeId(String search) {
-        return search == null ? null : reportPost.reporteeId.contains(search);
+        return search == null ? null : report.reporteeId.contains(search);
     }
 }

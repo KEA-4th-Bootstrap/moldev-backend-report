@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static org.bootstrap.moldev.entity.QReportPost.reportPost;
 import static org.bootstrap.moldev.entity.QReportReply.reportReply;
 
 @Repository
@@ -46,10 +45,10 @@ public class ReportReplyQueryRepositoryImpl implements ReportReplyQueryRepositor
     }
 
     private BooleanExpression eqIsProcessed(Boolean isProcessed) {
-        return isProcessed == null ? null : reportPost.isProcessed.eq(isProcessed);
+        return isProcessed == null ? null : reportReply.isProcessed.eq(isProcessed);
     }
 
     private BooleanExpression containsReporteeId(String search) {
-        return search == null ? null : reportPost.reporteeId.contains(search);
+        return search == null ? null : reportReply.reporteeId.contains(search);
     }
 }
