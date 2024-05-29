@@ -17,12 +17,12 @@ import org.hibernate.annotations.OnDeleteAction;
 public class ReportReply extends Report {
 
     @Column(name = "reply_id", nullable = false)
-    private Long replyId;
+    private String replyId;
 
     @Builder(access = AccessLevel.PRIVATE)
     public ReportReply(BaseReportRequestDto baseReportRequestDto) {
         super(baseReportRequestDto.reportRequestDto());
-        this.replyId = baseReportRequestDto.contentId();
+        this.replyId = (String)baseReportRequestDto.contentId();
     }
 
     public static ReportReply of(BaseReportRequestDto baseReportRequestDto) {

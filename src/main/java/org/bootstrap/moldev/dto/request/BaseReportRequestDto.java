@@ -1,7 +1,7 @@
 package org.bootstrap.moldev.dto.request;
 
-public record BaseReportRequestDto(
+public record BaseReportRequestDto<T>(
     ReportRequestDto reportRequestDto,
-    Long contentId
+    T contentId
 ) {
 }

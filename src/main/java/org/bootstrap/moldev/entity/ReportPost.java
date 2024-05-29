@@ -22,7 +22,7 @@ public class ReportPost extends Report {
     @Builder(access = AccessLevel.PRIVATE)
     public ReportPost(BaseReportRequestDto baseReportRequestDto) {
         super(baseReportRequestDto.reportRequestDto());
-        this.postId = baseReportRequestDto.contentId();
+        this.postId = ((Number)baseReportRequestDto.contentId()).longValue();
     }
 
     public static ReportPost of(BaseReportRequestDto baseReportRequestDto) {

@@ -14,11 +14,11 @@ public record ReportNotProcessedResponseDto(
     ReportType reportType,
     String reporterId,
     String reporteeId,
-    Long contentId,
+    Object contentId,
     String reason,
     LocalDate reportDate
 ) {
-    public static ReportNotProcessedResponseDto of(Report report, ReportType reportType, Long contentId) {
+    public static ReportNotProcessedResponseDto of(Report report, ReportType reportType, Object contentId) {
         return ReportNotProcessedResponseDto.builder()
                 .reportId(report.getId())
                 .reportType(reportType)
