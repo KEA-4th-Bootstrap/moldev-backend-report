@@ -3,9 +3,9 @@ package org.bootstrap.moldev.repository;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.bootstrap.moldev.dto.response.ReportNotProcessedResponseDto;
 import org.bootstrap.moldev.entity.ReportReply;
 import org.bootstrap.moldev.entity.ReportType;
+import org.bootstrap.moldev.vo.ReportResponseVo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
@@ -21,7 +21,7 @@ public class ReportReplyQueryRepositoryImpl implements ReportReplyQueryRepositor
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Page<ReportNotProcessedResponseDto> getReportReplyListForResponseByProcessed(String search, Pageable pageable, boolean isProcessed) {
+    public Page<ReportResponseVo> getReportReplyListForResponseByProcessed(String search, Pageable pageable, boolean isProcessed) {
         List<ReportReply> reportReplyList = jpaQueryFactory
                 .selectFrom(reportReply)
                 .where(
@@ -33,8 +33,8 @@ public class ReportReplyQueryRepositoryImpl implements ReportReplyQueryRepositor
                 .limit(pageable.getPageSize())
                 .fetch();
 
-        List<ReportNotProcessedResponseDto> reportReplyListDto = reportReplyList.stream()
-                .map(reportReply -> ReportNotProcessedResponseDto.of(reportReply, ReportType.REPLY, reportReply.getReplyId()))
+        List<ReportResponseVo> reportReplyListDto = reportReplyList.stream()
+                .map(reportReply -> ReportResponseVo.of(reportReply, ReportType.REPLY, reportReply.getReplyId()))
                 .toList();
 
         Long reportReplyCount = jpaQueryFactory.select(reportReply.count())

@@ -3,10 +3,10 @@ package org.bootstrap.moldev.repository;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.bootstrap.moldev.dto.response.ReportNotProcessedResponseDto;
 import org.bootstrap.moldev.entity.ReportPost;
 import org.bootstrap.moldev.entity.ReportReply;
 import org.bootstrap.moldev.entity.ReportType;
+import org.bootstrap.moldev.vo.ReportResponseVo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
@@ -27,7 +27,7 @@ public class ReportQueryRepositoryImpl implements ReportQueryRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Page<ReportNotProcessedResponseDto> getReportListForResponseByProcessed(String search, Pageable pageable, boolean isProcessed) {
+    public Page<ReportResponseVo> getReportListForResponseByProcessed(String search, Pageable pageable, boolean isProcessed) {
         List<Long> reportIdList = jpaQueryFactory.select(report.id)
                 .from(report)
                 .where(
@@ -47,14 +47,14 @@ public class ReportQueryRepositoryImpl implements ReportQueryRepository {
                 .where(reportReply.id.in(reportIdList))
                 .fetch();
 
-        List<ReportNotProcessedResponseDto> mergeList = Stream.concat(
+        List<ReportResponseVo> mergeList = Stream.concat(
                 reportPostList.stream()
-                        .map(reportPost -> ReportNotProcessedResponseDto.of(reportPost, ReportType.POST, reportPost.getPostId()))
+                        .map(reportPost -> ReportResponseVo.of(reportPost, ReportType.POST, reportPost.getPostId()))
                         .toList().stream(),
                 reportReplyList.stream()
-                        .map(reportReply -> ReportNotProcessedResponseDto.of(reportReply, ReportType.REPLY, reportReply.getReplyId()))
+                        .map(reportReply -> ReportResponseVo.of(reportReply, ReportType.REPLY, reportReply.getReplyId()))
                         .toList().stream()
-        ).sorted(Comparator.comparing(ReportNotProcessedResponseDto::reportId).reversed()).toList();
+        ).sorted(Comparator.comparing(ReportResponseVo::reportId).reversed()).toList();
 
         return PageableExecutionUtils.getPage(mergeList, pageable, reportIdList::size);
     }

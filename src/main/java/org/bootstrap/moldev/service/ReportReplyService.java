@@ -3,9 +3,10 @@ package org.bootstrap.moldev.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.bootstrap.moldev.dto.request.BaseReportRequestDto;
-import org.bootstrap.moldev.dto.response.ReportNotProcessedResponseDto;
+import org.bootstrap.moldev.dto.response.ReportResponseDto;
 import org.bootstrap.moldev.entity.ReportReply;
 import org.bootstrap.moldev.repository.ReportReplyRepository;
+import org.bootstrap.moldev.vo.ReportResponseVo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -24,12 +25,14 @@ public class ReportReplyService implements ReportService {
     }
 
     @Override
-    public Page<ReportNotProcessedResponseDto> getReportListIsProcessed(String search, Pageable pageable) {
-        return reportReplyRepository.getReportReplyListForResponseByProcessed(search, pageable, true);
+    public ReportResponseDto getReportListIsProcessed(String search, Pageable pageable) {
+        Page<ReportResponseVo> reportReplyListForResponseByProcessed = reportReplyRepository.getReportReplyListForResponseByProcessed(search, pageable, true);
+        return ReportResponseDto.of(reportReplyListForResponseByProcessed);
     }
 
     @Override
-    public Page<ReportNotProcessedResponseDto> getReportListIsNotProcessed(String search, Pageable pageable) {
-        return reportReplyRepository.getReportReplyListForResponseByProcessed(search, pageable, false);
+    public ReportResponseDto getReportListIsNotProcessed(String search, Pageable pageable) {
+        Page<ReportResponseVo> reportReplyListForResponseByProcessed = reportReplyRepository.getReportReplyListForResponseByProcessed(search, pageable, false);
+        return ReportResponseDto.of(reportReplyListForResponseByProcessed);
     }
 }

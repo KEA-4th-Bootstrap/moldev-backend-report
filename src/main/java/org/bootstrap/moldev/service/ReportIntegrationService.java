@@ -2,16 +2,15 @@ package org.bootstrap.moldev.service;
 
 import lombok.RequiredArgsConstructor;
 import org.bootstrap.moldev.common.error.GlobalErrorCode;
-import org.bootstrap.moldev.dto.response.ReportNotProcessedResponseDto;
+import org.bootstrap.moldev.dto.response.ReportResponseDto;
 import org.bootstrap.moldev.entity.Report;
 import org.bootstrap.moldev.exception.EntityNotFoundException;
 import org.bootstrap.moldev.repository.ReportRepository;
+import org.bootstrap.moldev.vo.ReportResponseVo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Transactional
@@ -20,12 +19,15 @@ public class ReportIntegrationService {
 
     private final ReportRepository reportRepository;
 
-    public Page<ReportNotProcessedResponseDto> getReportListIsProcessed(String search, Pageable pageable) {
-        return reportRepository.getReportListForResponseByProcessed(search, pageable, true);
+    public ReportResponseDto getReportListIsProcessed(String search, Pageable pageable) {
+        Page<ReportResponseVo> reportListForResponseByProcessed = reportRepository.getReportListForResponseByProcessed(search, pageable, true);
+        return ReportResponseDto.of(reportListForResponseByProcessed);
     }
 
-    public Page<ReportNotProcessedResponseDto> getReportListIsNotProcessed(String search, Pageable pageable) {
-        return reportRepository.getReportListForResponseByProcessed(search, pageable, false);
+    public ReportResponseDto getReportListIsNotProcessed(String search, Pageable pageable) {
+        Page<ReportResponseVo> reportListForResponseByProcessed = reportRepository.getReportListForResponseByProcessed(search, pageable, false);
+        return ReportResponseDto.of(reportListForResponseByProcessed);
+
     }
 
     public void updateReportProcessed(Long reportId) {
