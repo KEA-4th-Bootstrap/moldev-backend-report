@@ -10,12 +10,12 @@ import java.util.List;
 
 @Builder(access = AccessLevel.PRIVATE)
 public record ReportResponseDto(
-        List<ReportResponseVo> reportProcessedResponseVo,
+        List<ReportResponseVo> reportResponseVo,
         PageInfo pageInfo
 ) {
     public static ReportResponseDto of(Page<ReportResponseVo> reportList) {
         return ReportResponseDto.builder()
-                .reportProcessedResponseVo(reportList.getContent())
+                .reportResponseVo(reportList.getContent())
                 .pageInfo(PageInfo.of(reportList))
                 .build();
     }

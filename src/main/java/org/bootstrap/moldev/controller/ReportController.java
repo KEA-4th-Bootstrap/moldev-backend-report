@@ -9,6 +9,7 @@ import org.bootstrap.moldev.service.ReportIntegrationService;
 import org.bootstrap.moldev.service.ReportServiceFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,31 +31,31 @@ public class ReportController {
     }
 
     @GetMapping("/processed")
-    public ResponseEntity<SuccessResponse<?>> getReportListIsProcessed(@RequestParam(name = "type", required = false) ReportType reportType,
+    public ResponseEntity<?> getReportListIsProcessed(@RequestParam(name = "type", required = false) ReportType reportType,
                                                             @RequestParam(name = "search", required = false) String search,
                                                             @PageableDefault Pageable pageable) {
         if (Objects.isNull(reportType)) {
             ReportResponseDto reportList = reportIntegrationService.getReportListIsProcessed(search, pageable);
-            return SuccessResponse.ok(reportList);
+            return ResponseEntity.status(HttpStatus.OK).body(reportList);
         }
         ReportResponseDto reportList = reportServiceFactory.getReportService(reportType).getReportListIsProcessed(search, pageable);
-        return SuccessResponse.ok(reportList);
+        return ResponseEntity.status(HttpStatus.OK).body(reportList);
     }
 
     @GetMapping("/not-processed")
-    public ResponseEntity<SuccessResponse<?>> getReportListIsNotProcessed(@RequestParam(name = "type", required = false) ReportType reportType,
+    public ResponseEntity<?> getReportListIsNotProcessed(@RequestParam(name = "type", required = false) ReportType reportType,
                                                             @RequestParam(name = "search", required = false) String search,
                                                             @PageableDefault Pageable pageable) {
         if (Objects.isNull(reportType)) {
             ReportResponseDto reportList = reportIntegrationService.getReportListIsNotProcessed(search, pageable);
-            return SuccessResponse.ok(reportList);
+            return ResponseEntity.status(HttpStatus.OK).body(reportList);
         }
         ReportResponseDto reportList = reportServiceFactory.getReportService(reportType).getReportListIsNotProcessed(search, pageable);
-        return SuccessResponse.ok(reportList);
+        return ResponseEntity.status(HttpStatus.OK).body(reportList);
     }
 
     @PatchMapping("/{reportId}/processed")
-    public ResponseEntity<SuccessResponse<?>> patchReportProcessed(@PathVariable Long reportId) {
+    public ResponseEntity<?> patchReportProcessed(@PathVariable Long reportId) {
         reportIntegrationService.updateReportProcessed(reportId);
         return SuccessResponse.ok(null);
     }
